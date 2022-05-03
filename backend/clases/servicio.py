@@ -1,9 +1,8 @@
-from clases import linkedList as lista
-class Empresa:
+class Servicio:
 
-    def __init__(self, nombre, servicios):
+    def __init__(self, nombre, alias):
         self.nombre = nombre
-        self.servicios = servicios
+        self.alias = alias
         self.positivo = 0
         self.negativo = 0
         self.neutro = 0
@@ -15,7 +14,3 @@ class Empresa:
             self.negativo +=1
         if sentimiento == 'neutro':
             self.neutro +=1
-
-
-
-    

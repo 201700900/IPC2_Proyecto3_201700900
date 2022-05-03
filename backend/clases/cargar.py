@@ -1,9 +1,11 @@
 import xml.etree.ElementTree as ET
-import linkedList as lista
+from clases import linkedList as lista
 import tkinter, tkinter.filedialog, re
-import empresa as company
-import mensaje as m
-import escribir
+from clases import empresa as company
+from clases import mensaje as m
+from clases import escribir
+from clases import servicio as s
+from clases import fecha as f
 
 # ListaMensajes = lista.LinkedList()
 # Positivos = lista.LinkedList()
@@ -43,12 +45,13 @@ def leer():
         lista_servicios = lista.LinkedList()
         for servicio in empresa.iter('servicio'):#obtener cada servicio
             lista_alias = lista.LinkedList()
-            lista_alias.Append(servicio.attrib['nombre'].strip())
+            s_nombre = servicio.attrib['nombre'].strip()
+            lista_alias.Append(s_nombre)
             # print(servicio.attrib['nombre'])
             for alias in servicio:
                 # print(alias.text)
                 lista_alias.Append(alias.text.strip())
-            lista_servicios.Append(lista_alias)
+            lista_servicios.Append(s.Servicio(s_nombre, lista_alias))
         escribir.Empresas.Append(company.Empresa(nombre, lista_servicios))
 
 
@@ -63,6 +66,15 @@ def leer():
         # print(ciudad)
         fecha = ciudad_fecha[1]
         # print(fecha)
+        nuevo = f.Fecha(fecha)
+        # if not escribir.ListaFechas.Buscar(fecha):
+        #     escribir.ListaFechas.Append(nuevo)
+        match = 0
+        for d in escribir.ListaFechas:
+            if d.fecha == fecha:
+                match+=1
+        if match == 0:
+            escribir.ListaFechas.Append(nuevo)
 
 
         usuario_red = separado[3].split('\n')
@@ -78,9 +90,12 @@ def leer():
         for i in range(1, len(mensaje_red)-1):
             mensaje_final += mensaje_red[i].strip('\t\n')
         # print(mensaje_final)
-
-        escribir.ListaMensajes.Append(m.Mensaje(fecha, ciudad, usuario, red_social, mensaje_final))
-        
+        nuevo_mensaje = m.Mensaje(fecha, ciudad, usuario, red_social, mensaje_final.strip())
+        escribir.ListaMensajes.Append(nuevo_mensaje)
+        for fe in escribir.ListaFechas:
+            if fe.fecha == fecha:
+                fe.mensajes.Append(nuevo_mensaje)
+                break
         
 
 
@@ -95,5 +110,6 @@ def leer():
     # except:
     #     print("\t\033[;31m"+ path, "no encontrado"+'\033[0;m')
 
-leer()
+# leer()
+# escribir.respuesta()
 
