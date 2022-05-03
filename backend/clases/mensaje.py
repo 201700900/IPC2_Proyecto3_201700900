@@ -17,6 +17,14 @@ class Mensaje:
     def __str__(self):
         return str(self.texto)
 
+    def existe(self, fecha, lugar, usuario, red_social, texto):
+        if (self.tilde(self.fecha).lower() == self.tilde(fecha).lower()
+         and self.tilde(self.lugar).lower() == self.tilde(lugar).lower() 
+         and self.tilde(self.usuario).lower() == self.tilde(usuario).lower() 
+         and self.tilde(self.red_social).lower() == self.tilde(red_social).lower()
+         and self.tilde(self.texto).lower() == self.tilde(texto).lower()):
+            return True
+
     def getfecha(self):
         for f in escribir.ListaFechas:
             if f.fecha == self.fecha:

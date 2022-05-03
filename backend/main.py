@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, json, jsonify, make_response, redirect
+import xml.etree.ElementTree as ET
 import xmltodict
 from markupsafe import escape
 from clases import escribir, cargar
@@ -9,37 +10,28 @@ def index():
     user_ip = request.remote_addr
     return f"Hola Mundo flask hellos, la IP es: {user_ip}"
 
-def do_the_login():
-    return('login')
 
-def show_the_login_form():
-    return('show')
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        return do_the_login()
-    else:
-        return show_the_login_form()
-
-
-@app.route('/cargar/<path>', methods=['GET', 'POST'])
-def carga(path):
-    cargar.leer()
-    print(path)
+@app.route('/cargar', methods=['GET', 'POST'], strict_slashes=False)
+def carga():
+    path = xmltodict.parse(request.get_data())
+    b = request.get_data()
+    s = b.decode('UTF-8')
+    # print(type(b))
+    # print(type(s))
+    root = ET.fromstring(s)
+    # print(root)
+    # print(type(root))
+    cargar.leer(root)
+    # cargar.leer()
+    # print()
     return escribir.respuesta()
 
 
-@app.route('/pro/', methods=['GET', 'POST'])
-def projects():
-    nombre = request.json['path']
-    msg= 'El archivo esta en ' +  nombre
-    print(msg)
-    cargar.leer()
+@app.route('/path/', methods=['GET', 'POST'], strict_slashes=False)
+def path():
+    cargar.getPath()
     return escribir.respuesta()
 
-@app.route('/about')
-def about():
-    return 'The about page'
 
 @app.route('/posting' , methods=['POST'])
 def add_pub():

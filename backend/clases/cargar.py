@@ -11,8 +11,20 @@ from clases import fecha as f
 # Positivos = lista.LinkedList()
 # Negativos = lista.LinkedList()
 # Empresas = lista.LinkedList()
+def getPath():
+    root = tkinter.Tk() #esto se hace solo para eliminar la ventanita de Tkinter 
+    root.withdraw() #ahora se cierra 
+    path = tkinter.filedialog.askopenfilename() #abre el explorador de archivos y guarda la seleccion en la variable!
 
-def leer():
+
+    try:
+        tree = ET.parse(path)
+        root = tree.getroot()#<solicitud_clasificacion>
+        leer(root)
+
+    except:
+        print("\t\033[;31m"+ path, "no encontrado"+'\033[0;m')
+def leer(root):
     global Positivos
     global Negativos
     global Empresas
@@ -23,21 +35,23 @@ def leer():
 
 
     # try:
-    path = 'C:/Users/gujho/OneDrive/Documentos/1SEM2022/IPC2/LAB/IPC2_Proyecto3_201700900/backend/clases/entrada.xml'
-    tree = ET.parse(path)
-    root = tree.getroot()#<solicitud_clasificacion>
+    # path = 'C:/Users/gujho/OneDrive/Documentos/1SEM2022/IPC2/LAB/IPC2_Proyecto3_201700900/backend/clases/entrada.xml'
+    # tree = ET.parse(path)
+    # root = tree.getroot()#<solicitud_clasificacion>
     ###################################################################################
     # for diccionario in root[0]:#root[0] es <diccionario>
     #     print(diccionario.tag)#obtener cada diccionario
     
     for positivo in root[0][0]: #<sentimientos_positivos> 
         # print(positivo.text)
-        escribir.Positivos.Append(positivo.text.strip())
+        if not escribir.Positivos.Buscar(positivo):
+            escribir.Positivos.Append(positivo.text.strip())
         
 
     for negattivo in root[0][1]: #<sentimientos_negativos> 
         # print(negattivo.text)
-        escribir.Negativos.Append(negattivo.text.strip())
+        if not escribir.Negativos.Buscar(negattivo):
+            escribir.Negativos.Append(negattivo.text.strip())
 
     for empresa in root[0][2]: #<empresas_analizar> 
         nombre = empresa.find('nombre').text.strip()
@@ -52,7 +66,12 @@ def leer():
                 # print(alias.text)
                 lista_alias.Append(alias.text.strip())
             lista_servicios.Append(s.Servicio(s_nombre, lista_alias))
-        escribir.Empresas.Append(company.Empresa(nombre, lista_servicios))
+        match = 0
+        for e in escribir.Empresas:
+            if e.nombre == nombre:
+                match+=1
+        if match == 0:
+            escribir.Empresas.Append(company.Empresa(nombre, lista_servicios))
 
 
     for mensaje in root[1]:#root[0] es <lista_mensajes>
@@ -90,13 +109,17 @@ def leer():
         for i in range(1, len(mensaje_red)-1):
             mensaje_final += mensaje_red[i].strip('\t\n')
         # print(mensaje_final)
-        nuevo_mensaje = m.Mensaje(fecha, ciudad, usuario, red_social, mensaje_final.strip())
-        escribir.ListaMensajes.Append(nuevo_mensaje)
-        for fe in escribir.ListaFechas:
-            if fe.fecha == fecha:
-                fe.mensajes.Append(nuevo_mensaje)
-                break
-        
+        existe = 0
+        for x in escribir.ListaMensajes:
+            if x.existe(fecha, ciudad, usuario, red_social, mensaje_final.strip()):
+                existe+=1
+        if existe == 0:
+            nuevo_mensaje = m.Mensaje(fecha, ciudad, usuario, red_social, mensaje_final.strip())
+            escribir.ListaMensajes.Append(nuevo_mensaje)
+            for fe in escribir.ListaFechas:
+                if fe.fecha == fecha:
+                    fe.mensajes.Append(nuevo_mensaje)
+            
 
 
 
@@ -105,7 +128,7 @@ def leer():
 
 
 
-    print("\t\033[;32m"+ path + " cargado con exito"+'\033[0;m')
+    print("\t\033[;32m"+" cargado con exito"+'\033[0;m')
 
     # except:
     #     print("\t\033[;31m"+ path, "no encontrado"+'\033[0;m')

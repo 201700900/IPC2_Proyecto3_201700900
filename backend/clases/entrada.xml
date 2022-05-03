@@ -7,7 +7,6 @@
 	  <palabra> cool </palabra>
 	  <palabra> satisfecho </palabra>
 	  <palabra> alegre </palabra>
-	  ...
     </sentimientos_positivos>
     <sentimientos_negativos> 
       <palabra> malo </palabra>
@@ -16,7 +15,6 @@
 	  <palabra> molesto </palabra>
 	  <palabra> decepcionado </palabra>
 	  <palabra> enojo </palabra>
-	  ...
     </sentimientos_negativos>
     <empresas_analizar> 
       <empresa> 
@@ -57,7 +55,6 @@
 	  mi carro tenía pinchadas las llantas, esto me preocupó 
 	  y me fui decepcionado.
     </mensaje>
-    ...
 	<mensaje>
 		Lugar y fecha: Guatemala, 01/04/2022 15:43 Usuario: map0003@usac.edu   
 		Red social: WhatsApp

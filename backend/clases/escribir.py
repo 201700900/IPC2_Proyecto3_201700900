@@ -7,6 +7,18 @@ Positivos = lista.LinkedList()
 Negativos = lista.LinkedList()
 Empresas = lista.LinkedList()
 
+def delete():
+    global ListaFechas
+    global ListaMensajes
+    global Positivos
+    global Negativos 
+    global Empresas
+
+    ListaFechas = lista.LinkedList()
+    ListaMensajes = lista.LinkedList()
+    Positivos = lista.LinkedList()
+    Negativos = lista.LinkedList()
+    Empresas = lista.LinkedList()
 
 def tot_mensajes(padre, tot, pos, neg, neu):
     
