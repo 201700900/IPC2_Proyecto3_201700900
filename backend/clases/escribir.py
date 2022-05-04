@@ -1,4 +1,5 @@
-from clases import linkedList as lista
+from unittest import result
+from clases import linkedList as lista, mensaje as m
 import xml.etree.ElementTree as ET
 
 ListaFechas = lista.LinkedList()
@@ -110,4 +111,85 @@ def respuesta():
         myfile.write(mydata.decode('UTF-8'))
         print(mydata.decode('UTF-8'))
     return mydata.decode('UTF-8')
+
+def porcentaje(total, numero):
+    if numero == 0:
+        return 0
+    else:
+        num=float(numero)
+        tot=float(total)
+        res = (num*100)/tot
+        return round(res, 2)
+
+def prueba_mensaje(root):
+
+    
+    mensaje =root#root es <lista_mensajes>
+    # print(mensaje.text)
+    text = mensaje.text.strip(' \t\n')
+    separado = text.split(' ')
+    # print(separado)
+    ciudad = separado[3].strip(' ,\t\n')
+    # print(ciudad)
+    fecha = separado[4].strip(' ,\t\n')
+    
+    
+
+
+    usuario = separado[7].strip(' ,\t\n')
+    # print(usuario)
+
+
+    red_social = separado[10].strip(' ,\t\n')
+    # print(red_social)
+
+    mensaje_final = " ".join(separado).strip(' ,\t\n')
+    # for i in range(1, len(mensaje_red)-1):
+    #     mensaje_final += mensaje_red[i].strip('\t\n')
+    # print(mensaje_final)
+    
+    nuevo = m.Mensaje(fecha, ciudad, usuario, red_social, mensaje_final.strip(), 'prueba')
+         
+            
+    root = ET.Element('lista_respuestas')
+    date = ET.SubElement(root, 'fecha')
+    date.text = nuevo.fecha
+
+    network = ET.SubElement(root, 'red_social')
+    network.text = nuevo.red_social
+
+    user = ET.SubElement(root, 'usuario')
+    user.text = nuevo.usuario
+    company = ET.SubElement(root, 'empresas')
+
+    for empresa in nuevo.d_Empresas:
+        e = ET.SubElement(company, 'empresa')
+        e.set('nombre', empresa['empresa'])
+        for servicio in empresa['servicios']:
+            s = ET.SubElement(e, 'servicio')
+            s.text = servicio
+    
+
+    positivo = ET.SubElement(root, 'palabras_positivas')
+    positivo.text = str(nuevo.palabras_positivas)
+    negativo = ET.SubElement(root, 'palabras_negativas')
+    negativo.text = str(nuevo.palabras_negativas)
+    total_palabras = nuevo.palabras_positivas + nuevo.palabras_negativas
+    sen_positivo = ET.SubElement(root, 'sentimiento_positivo')
+    sen_positivo.text = str(porcentaje(total_palabras, nuevo.palabras_positivas))+'%'
+    sen_negativo = ET.SubElement(root, 'sentimiento_negaivo')
+    sen_negativo.text = str(porcentaje(total_palabras, nuevo.palabras_negativas))+'%'
+    analizado = ET.SubElement(root, 'sentimiento_analizado')
+    analizado.text = nuevo.sentimiento
+
+    mydata = ET.tostring(root, encoding='UTF-8', method ='html')
+    print(mydata.decode('UTF-8'))
+    return mydata.decode('UTF-8')
+
+
+
+
+
+
+
 

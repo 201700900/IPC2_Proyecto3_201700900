@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, json, jsonify, make_response,
 import xml.etree.ElementTree as ET
 import xmltodict
 from markupsafe import escape
-from clases import escribir, cargar
+from clases import escribir, cargar, pfd
 app = Flask(__name__)
 
 @app.route('/', methods=["GET", "POST"])
@@ -16,14 +16,12 @@ def carga():
     path = xmltodict.parse(request.get_data())
     b = request.get_data()
     s = b.decode('UTF-8')
-    # print(type(b))
-    # print(type(s))
+    
     root = ET.fromstring(s)
-    # print(root)
-    # print(type(root))
+    
     cargar.leer(root)
-    # cargar.leer()
-    # print()
+    pfd.makePDF()
+    
     return escribir.respuesta()
 
 
@@ -33,16 +31,14 @@ def path():
     return escribir.respuesta()
 
 
-@app.route('/posting' , methods=['POST'])
-def add_pub():
-    #parametros
-    nombre = request.json['nombre']
-    curso = request.json['curso']
-    lista = request.json['lista']
-    print(lista)
-    msg = 'Hola mi nombre es ' + nombre +', bienvenido al curso de ' + curso
-    print(msg)
-    return jsonify(Name = 'POST', Mensaje= msg, Status=True),200
+@app.route('/prueba' , methods=['GET','POST'], strict_slashes=False)
+def prueba():
+    b = request.get_data()
+    s = b.decode('UTF-8')
+ 
+    root = ET.fromstring(s)
+    
+    return escribir.prueba_mensaje(root)
 
 
 
