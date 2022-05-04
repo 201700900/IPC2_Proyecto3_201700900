@@ -109,6 +109,7 @@ def respuesta():
         mydata = ET.tostring(root, encoding='UTF-8', method ='html')
         myfile = open("items.xml", "w", encoding='UTF-8')
         myfile.write(mydata.decode('UTF-8'))
+        myfile.close()
         print(mydata.decode('UTF-8'))
     return mydata.decode('UTF-8')
 
