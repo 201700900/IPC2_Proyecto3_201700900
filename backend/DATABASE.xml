@@ -41,9 +41,9 @@
     <respuesta>
       <fecha>03/04/2022</fecha>
       <mensajes>
-        <total>8</total>
-        <positivos>4</positivos>
-        <negativos>4</negativos>
+        <total>10</total>
+        <positivos>5</positivos>
+        <negativos>5</negativos>
         <neutros>0</neutros>
       </mensajes>
       <analisis>
@@ -57,17 +57,17 @@
           <servicios>
             <servicio nombre="inscripcion">
               <mensajes>
-                <total>8</total>
-                <positivos>4</positivos>
-                <negativos>4</negativos>
+                <total>10</total>
+                <positivos>5</positivos>
+                <negativos>5</negativos>
                 <neutros>0</neutros>
               </mensajes>
             </servicio>
             <servicio nombre="inscripcion">
               <mensajes>
-                <total>8</total>
-                <positivos>4</positivos>
-                <negativos>4</negativos>
+                <total>10</total>
+                <positivos>5</positivos>
+                <negativos>5</negativos>
                 <neutros>0</neutros>
               </mensajes>
             </servicio>
@@ -78,10 +78,10 @@
     <respuesta>
       <fecha>06/04/2022</fecha>
       <mensajes>
-        <total>1</total>
+        <total>2</total>
         <positivos>0</positivos>
         <negativos>0</negativos>
-        <neutros>1</neutros>
+        <neutros>2</neutros>
       </mensajes>
       <analisis>
         <empresa nombre="USAC">
@@ -94,10 +94,10 @@
           <servicios>
             <servicio nombre="inscripcion">
               <mensajes>
-                <total>1</total>
+                <total>2</total>
                 <positivos>0</positivos>
                 <negativos>0</negativos>
-                <neutros>1</neutros>
+                <neutros>2</neutros>
               </mensajes>
             </servicio>
           </servicios>
@@ -107,9 +107,9 @@
     <respuesta>
       <fecha>01/04/2022</fecha>
       <mensajes>
-        <total>2</total>
-        <positivos>1</positivos>
-        <negativos>1</negativos>
+        <total>4</total>
+        <positivos>2</positivos>
+        <negativos>2</negativos>
         <neutros>0</neutros>
       </mensajes>
       <analisis>
@@ -123,25 +123,25 @@
           <servicios>
             <servicio nombre="asignacion">
               <mensajes>
-                <total>2</total>
-                <positivos>1</positivos>
-                <negativos>1</negativos>
+                <total>4</total>
+                <positivos>2</positivos>
+                <negativos>2</negativos>
                 <neutros>0</neutros>
               </mensajes>
             </servicio>
             <servicio nombre="graduacion">
               <mensajes>
-                <total>2</total>
-                <positivos>1</positivos>
-                <negativos>1</negativos>
+                <total>4</total>
+                <positivos>2</positivos>
+                <negativos>2</negativos>
                 <neutros>0</neutros>
               </mensajes>
             </servicio>
             <servicio nombre="graduacion">
               <mensajes>
-                <total>2</total>
-                <positivos>1</positivos>
-                <negativos>1</negativos>
+                <total>4</total>
+                <positivos>2</positivos>
+                <negativos>2</negativos>
                 <neutros>0</neutros>
               </mensajes>
             </servicio>

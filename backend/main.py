@@ -51,7 +51,7 @@ if __name__ == '__main__':
 #Inicializar application
 #python app.py
 
-@app.route('/pdf/', methods=['GET', 'POST'], strict_slashes=False)
-def pdf():
+@app.route('/reset/', methods=['GET', 'POST'], strict_slashes=False)
+def reset():
     pfd.makePDF()
     return {'exito':''}
