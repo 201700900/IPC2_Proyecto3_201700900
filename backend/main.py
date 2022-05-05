@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import xmltodict
 from markupsafe import escape
 import webbrowser as wb
-from clases import escribir, cargar, pfd
+from clases import escribir, cargar, pfd, db
 
 app = Flask(__name__)
 
@@ -50,3 +50,8 @@ if __name__ == '__main__':
 
 #Inicializar application
 #python app.py
+
+@app.route('/pdf/', methods=['GET', 'POST'], strict_slashes=False)
+def pdf():
+    pfd.makePDF()
+    return {'exito':''}

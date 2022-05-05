@@ -5,10 +5,10 @@ import tkinter.filedialog
 import re
 from clases import empresa as company
 from clases import mensaje as m
-from clases import escribir
+from clases import escribir, db
 from clases import servicio as s
 from clases import fecha as f
-
+n = db.DB()
 # ListaMensajes = lista.LinkedList()
 # Positivos = lista.LinkedList()
 # Negativos = lista.LinkedList()
@@ -60,12 +60,15 @@ def leer(root):
     for positivo in root[0][0]:  # <sentimientos_positivos>
         # print(positivo.text)
         if not escribir.Positivos.Buscar(positivo):
+            n.guardar_positivo(escribir.tilde(positivo.text.strip()))
             escribir.Positivos.Append(positivo.text.strip())
 
     for negattivo in root[0][1]:  # <sentimientos_negativos>
         # print(negattivo.text)
         if not escribir.Negativos.Buscar(negattivo):
             escribir.Negativos.Append(negattivo.text.strip())
+            n.guardar_negativo(escribir.tilde(negattivo.text.strip()))
+
 
     for empresa in root[0][2]:  # <empresas_analizar>
         nombre = empresa.find('nombre').text.strip()
@@ -74,18 +77,19 @@ def leer(root):
         for servicio in empresa.iter('servicio'):  # obtener cada servicio
             lista_alias = lista.LinkedList()
             s_nombre = servicio.attrib['nombre'].strip()
-            lista_alias.Append(s_nombre)
+            lista_alias.Append(escribir.tilde(s_nombre))
             # print(servicio.attrib['nombre'])
             for alias in servicio:
                 # print(alias.text)
-                lista_alias.Append(alias.text.strip())
-            lista_servicios.Append(s.Servicio(s_nombre, lista_alias))
+                lista_alias.Append(escribir.tilde(alias.text.strip()))
+            lista_servicios.Append(s.Servicio(escribir.tilde(s_nombre), lista_alias))
         match = 0
         for e in escribir.Empresas:
             if e.nombre == nombre:
                 match += 1
         if match == 0:
             escribir.Empresas.Append(company.Empresa(nombre, lista_servicios))
+            n.guardar_empresa(escribir.tilde(nombre), lista_servicios)
 
     for mensaje in root[1]:  # root[0] es <lista_mensajes>
         # print(mensaje.text)

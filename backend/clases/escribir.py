@@ -1,5 +1,5 @@
 from unittest import result
-from clases import linkedList as lista, mensaje as m
+from clases import linkedList as lista, mensaje as m, db
 import xml.etree.ElementTree as ET
 
 ListaFechas = lista.LinkedList()
@@ -7,8 +7,8 @@ ListaMensajes = lista.LinkedList()
 Positivos = lista.LinkedList()
 Negativos = lista.LinkedList()
 Empresas = lista.LinkedList()
-
-
+id = 1
+n = db.DB()
 def delete():
     global ListaFechas
     global ListaMensajes
@@ -22,6 +22,17 @@ def delete():
     Negativos = lista.LinkedList()
     Empresas = lista.LinkedList()
 
+def tilde (s):
+        replacements = (
+            ("á", "a"),
+            ("é", "e"),
+            ("í", "i"),
+            ("ó", "o"),
+            ("ú", "u"),
+        )
+        for a, b in replacements:
+            s = s.replace(a, b).replace(a.upper(), b.upper())
+        return s
 
 def tot_mensajes(padre, tot, pos, neg, neu):
 
@@ -43,6 +54,7 @@ def respuesta():
     global Positivos
     global Negativos
     global Empresas
+    global id
 
     root = ET.Element('lista_respuestas')
     for f in ListaFechas:
@@ -62,8 +74,10 @@ def respuesta():
         respuesta = ET.SubElement(root, 'respuesta')
 
         fecha = ET.SubElement(respuesta, 'fecha')
+        n.guardar_fecha(f.fecha)
         fecha.text = f.fecha
         tot_mensajes(respuesta, len(f.mensajes), tot_pos, tot_neg, tot_neut)
+        n.guardar_tot_mensajes(f.fecha, len(f.mensajes), tot_pos, tot_neg, tot_neut)
 
         # analisis = ET.SubElement(respuesta, 'analisis')
         # for empresa in Empresas:
@@ -82,6 +96,12 @@ def respuesta():
         #         tot_mensajes(s, total_s, servicio.positivo, servicio.negativo, servicio.neutro)
 
         analisis = ET.SubElement(respuesta, 'analisis')
+        for em in f.d_empresas:
+            n.guardar_analisis_empresa(f.fecha, em['empresa'], em['servicios'])
+            tot = int(em['pos'])+ int(em['neg'])+ int(em['neut'])
+            print(tot)
+            # n.guardar_tot_empresa(f.fecha, em['empresa'], tot, em['pos'], em['neg'], em['neut']) 
+
         for empresa in f.empresas:
             e = ET.SubElement(analisis, 'empresa')
             e.set('nombre', empresa[0].nombre)
@@ -100,9 +120,10 @@ def respuesta():
         # create a new XML file with the results
         ET.indent(root)
         mydata = ET.tostring(root, encoding='UTF-8', method='html')
-        myfile = open("items.xml", "w", encoding='UTF-8')
+        myfile = open("response"+str(id)+".xml", "w", encoding='UTF-8')
         myfile.write(mydata.decode('UTF-8'))
         myfile.close()
+        id+=1
         # print(mydata.decode('UTF-8'))
     return mydata.decode('UTF-8')
 

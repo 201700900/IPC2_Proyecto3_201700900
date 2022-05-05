@@ -94,6 +94,7 @@ class Mensaje:
                 self.empresa.append(empresa)
                 self.getDiccionario(empresa.nombre)
                 if prueba != 'prueba': 
+                    f.sentimiento_empresa(self.tilde(empresa.nombre), self.sentimiento)
                     empresa.getSentimiento(self.sentimiento)
                     f.empresa(empresa, self.sentimiento)
                     
@@ -108,6 +109,7 @@ class Mensaje:
                             if prueba != 'prueba': 
                                 servicio.getSentimiento(self.sentimiento)
                                 f.servicio(servicio, self.sentimiento)
+                                f.sentimiento_servicio(empresa.nombre, servicio.nombre, self.sentimiento)
                         
 
     

@@ -13,14 +13,15 @@ def makePDF():
 
     w, h = A4
 
-    
-    text = c.beginText(50, h - 50)
-    text.setFont("Times-Roman", 12)
-
    
     for f in escribir.ListaFechas:
 
         
+
+        
+        text = c.beginText(50, h - 50)
+        text.setFont("Times-Roman", 12)
+
 
         tot_pos = 0
         tot_neg = 0
@@ -67,5 +68,7 @@ def makePDF():
             text.textLine('\tMensajes positivos: '+ str(empresa[1]))
             text.textLine('\tMensajes negativos:  '+ str(empresa[2]))
             text.textLine('\tMensajes neutros: '+ str(empresa[3]))
-    c.drawText(text)
+        
+        c.drawText(text)
+        c.showPage()
     c.save()
