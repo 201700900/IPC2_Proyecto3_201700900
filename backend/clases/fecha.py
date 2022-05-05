@@ -8,22 +8,30 @@ class Fecha:
         self.empresas = lista.LinkedList()
         self.servicios = lista.LinkedList()
         self.d_empresas = []
-        
+        self.total_mensajes = {'tot':0,'pos': 0, 'neg': 0, 'neut':0}
+    
+    def set_total_mensajes(self, tot, pos, neg, neut):
+        self.total_mensajes['tot'] = tot
+        self.total_mensajes['pos'] = pos
+        self.total_mensajes['neg'] = neg
+        self.total_mensajes['neut'] = neut
+
     def in_dictlist(self, key, value, my_dictlist): 
         for entry in my_dictlist: 
             if entry[key] == value: 
                 return True
         return False 
 
-    def  new_d_empresa(self, empresa):
-        nuevo = {'empresa':empresa, 'pos': 0, 'neg': 0, 'neut': 0, 'servicios':[]}
+    def  new_d_empresa(self, empresa,tot=0, pos=0, neg=0, neut=0):
+        nuevo = {'empresa':empresa, 'tot':tot, 'pos':pos, 'neg':neg, 'neut': neut, 'servicios':[]}
         if not self.in_dictlist('empresa', empresa, self.d_empresas):
             self.d_empresas.append(nuevo)
 
-    def new_servicio(self, empresa, servicio):
+    def new_servicio(self, empresa, servicio, tot=0, pos=0, neg=0, neut=0):
         for d in self.d_empresas:
-            if d['empresa'] == empresa and servicio not in d['servicios']:
-                d["servicios"].append({'servicio':servicio, 'pos': 0, 'neg': 0, 'neut':0})
+            if d['empresa'] == empresa:
+                if not self.in_dictlist('servicio',servicio, d['servicios'] ):
+                    d["servicios"].append({'servicio':servicio, 'tot':tot, 'pos':pos, 'neg':neg, 'neut': neut})
 
     def e_nuevo(self, empresa):
         nuevo= lista.LinkedList()
@@ -40,10 +48,16 @@ class Fecha:
 
                 if sentimiento == 'positivo':
                     e['pos'] +=1
+                    e['tot'] +=1
+                    
                 if sentimiento == 'negativo':
                     e['neg'] +=1
+                    e['tot'] +=1
+
                 if sentimiento == 'neutro':
                     e['neut'] +=1
+                    e['tot'] +=1
+
     def sentimiento_servicio(self, empresa, servicio, sentimiento):
         self.new_servicio(empresa, servicio)
         for e in self.d_empresas:
@@ -52,11 +66,15 @@ class Fecha:
                     if s['servicio'] == servicio:
 
                         if sentimiento == 'positivo':
-                            e['pos'] +=1
+                            s['pos'] +=1
+                            s['tot'] +=1
                         if sentimiento == 'negativo':
-                            e['neg'] +=1
+                            s['neg'] +=1
+                            s['tot'] +=1
                         if sentimiento == 'neutro':
-                            e['neut'] +=1
+                            s['neut'] +=1
+                            s['tot'] +=1
+
                         
     def empresa(self, empresa, sentimiento):
         # if not self.empresas.Buscar(empresa):

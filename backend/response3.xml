@@ -58,18 +58,18 @@
     </analisis>
   </respuesta>
   <respuesta>
-    <fecha>01/04/2022</fecha>
+    <fecha>02/04/2022</fecha>
     <mensajes>
-      <total>2</total>
-      <positivos>1</positivos>
+      <total>1</total>
+      <positivos>0</positivos>
       <negativos>1</negativos>
       <neutros>0</neutros>
     </mensajes>
     <analisis>
       <empresa nombre="USAC">
         <mensajes>
-          <total>2</total>
-          <positivos>1</positivos>
+          <total>1</total>
+          <positivos>0</positivos>
           <negativos>1</negativos>
           <neutros>0</neutros>
         </mensajes>
@@ -79,14 +79,6 @@
               <total>1</total>
               <positivos>0</positivos>
               <negativos>1</negativos>
-              <neutros>0</neutros>
-            </mensajes>
-          </servicio>
-          <servicio nombre="graduacion">
-            <mensajes>
-              <total>2</total>
-              <positivos>2</positivos>
-              <negativos>0</negativos>
               <neutros>0</neutros>
             </mensajes>
           </servicio>

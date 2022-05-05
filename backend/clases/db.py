@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from clases import linkedList as lista, empresa as company, servicio as s, fecha as f
 
 
 class DB:
@@ -17,6 +18,90 @@ class DB:
     def __init__(self) -> None:
         self.id = 1
         self.path = "DATABASE.xml"
+
+    def cargar_respuestas(self, ListaFechas):
+        tree = ET.parse(self.path)
+        root = tree.getroot()
+        for respuesta in root[1]:
+            fecha = respuesta.find('fecha').text
+            match = 0
+            nuevo = f.Fecha(fecha)
+            for d in ListaFechas:
+                if d.fecha == fecha:
+                    match += 1
+            if match == 0:
+                ListaFechas.Append(nuevo)#guardar fecha
+            #total mensajes
+            tot_m =  int(respuesta[1][0].text.strip())
+            tot_pos = int(respuesta[1][1].text.strip())
+            tot_neg =  int(respuesta[1][2].text.strip())
+            tot_neut = int(respuesta[1][3].text.strip())
+            nuevo.set_total_mensajes(tot_m, tot_pos, tot_neg, tot_neut)
+
+            #GUARDAR EMPRESAS
+            for emp in nuevo.d_empresas:
+
+                if not self.existe_empresa_analisis(emp['empresa'], respuesta[2]):
+                    for empresa in respuesta[2]:
+                        tot_e = int(empresa[0][0].text.strip())
+                        tot_pos = int(empresa[0][1].text.strip())
+                        tot_neg =int(empresa[0][2].text.strip())
+                        tot_neut = int(empresa[0][3].text.strip())
+                        nuevo.new_d_empresa(empresa.attrib['nombre'].strip(), tot_e, tot_pos, tot_neg, tot_neut)
+
+                for servicio in emp[1]:
+                    tot_m =int(servicio[0][0].text)
+                    tot_pos = int(servicio[0][1].text)
+                    tot_neg = int(servicio[0][2].text)
+                    tot_neut = (servicio[0][3].text)
+                    nuevo.new_servicio(empresa.attrib['nombre'].strip(),  servicio.attrib['nombre'].strip(),tot_e, tot_pos, tot_neg, tot_neut)
+
+
+
+
+    def cargar_sentimientos(self, pos, neg):
+        tree = ET.parse(self.path)
+        root = tree.getroot()
+        for positivo in root[0][0]:  # <sentimientos_positivos>
+        # print(positivo.text)
+            if not pos.Buscar(positivo):
+                pos.Append(positivo.text.strip())
+
+        for negattivo in root[0][1]:  # <sentimientos_negativos>
+            # print(negattivo.text)
+            if not neg.Buscar(negattivo):
+                neg.Append(negattivo.text.strip())
+    
+    def cargar_empresas(self, Empresas):
+        tree = ET.parse(self.path)
+        root = tree.getroot()
+        for empresa in root[0][2]:  # <empresas_analizar>
+            nombre = (empresa.find('nombre').text.strip())
+            # print(nombre)
+            lista_servicios = lista.LinkedList()
+            for servicio in empresa.iter('servicio'):  # obtener cada servicio
+                lista_alias = lista.LinkedList()
+                s_nombre = servicio.attrib['nombre'].strip()
+                # print(servicio.attrib['nombre'])
+                for alias in servicio:
+                    # print(alias.text)
+                    lista_alias.Append((alias.text.strip()))
+                lista_servicios.Append(s.Servicio((s_nombre), lista_alias))
+            match = 0
+            for e in Empresas:
+                if e.nombre == nombre:
+                    match += 1
+            if match == 0:
+                Empresas.Append(company.Empresa(nombre, lista_servicios))
+
+    def reset(self):
+        tree = ET.parse('base.xml')
+        root = tree.getroot()
+        mydata = ET.tostring(root, encoding='UTF-8', method='html')
+        myfile = open(self.path, "w", encoding='UTF-8')
+        myfile.write(mydata.decode('UTF-8'))
+        myfile.close()
+
 
     def enlistar(self, l):
         lista = []
@@ -70,7 +155,7 @@ class DB:
             tree.write(self.path)
 
         for empresa in root[0][2]:  # <empresas_analizar>
-            print(empresa.find('nombre').text)
+            # print(empresa.find('nombre').text)
             if new == empresa.find('nombre').text:
                 # obtener cada servicio
                 for servicio in empresa.iter('servicio'):
@@ -125,13 +210,10 @@ class DB:
             if fecha == respuesta.find('fecha').text:
                 for empresa in respuesta[2]:
                     if new == empresa.attrib['nombre'].strip():
-                        print(tot + int(empresa[1][0].text.strip()))
-                        print(tot)
-                        print(int(empresa[1][0].text.strip()))
-                        tot_e = tot + int(empresa[1][0].text.strip())
-                        tot_pos = pos + int(empresa[1][1].text.strip())
-                        tot_neg = neg + int(empresa[1][2].text.strip())
-                        tot_neut = neu + int(empresa[1][3].text.strip())
+                        tot_e = tot + int(empresa[0][0].text.strip())
+                        tot_pos = pos + int(empresa[0][1].text.strip())
+                        tot_neg = neg + int(empresa[0][2].text.strip())
+                        tot_neut = neu + int(empresa[0][3].text.strip())
                         empresa[0][0].text = str(tot_e)
                         empresa[0][1].text = str(tot_pos)
                         empresa[0][2].text = str(tot_neg)
@@ -145,7 +227,7 @@ class DB:
             if valor == empresa.attrib['nombre'].strip():
                 return True
 
-    def guardar_analisis_empresa(self, fecha, new, lista):#{'servicio':servicio, 'pos': 0, 'neg': 0, 'neut':0}
+    def guardar_analisis_empresa(self, fecha, new, lista):#{'servicio':servicio, tot: 0 'pos': 0, 'neg': 0, 'neut':0}
         tree = ET.parse(self.path)
         root = tree.getroot()
         for respuesta in root[1]:
@@ -154,7 +236,6 @@ class DB:
                     e = ET.SubElement(respuesta[2], 'empresa')
                     e.set('nombre', new)
                     mensajes = ET.SubElement(e, 'mensajes')
-                    print()
                     tot_mensajes = ET.SubElement(mensajes, 'total')
                     tot_positivos = ET.SubElement(mensajes, 'positivos')
                     tot_negativos = ET.SubElement(mensajes, 'negativos')
@@ -169,22 +250,17 @@ class DB:
                 for empresa in respuesta[2]:
                     if new == empresa.attrib['nombre'].strip():
                         for servicio in lista:
-                            
-                            if new == empresa.attrib['nombre'].strip():
+                            if not self.existe_servicio_analisis(servicio, empresa[1]):
+                                self.nuevo_servicio(empresa[1], servicio)
+                            elif new == empresa.attrib['nombre'].strip():
 
                                 for a in empresa[1]:
                                     if servicio['servicio'] == a.attrib['nombre'].strip():
-                                        total_s = servicio['pos'] + \
-                                            servicio['neg'] + servicio['neut']
 
-                                        tot_m = total_s + \
-                                            int(respuesta[1][0].text)
-                                        tot_pos = servicio['pos'] + \
-                                            int(respuesta[1][1].text)
-                                        tot_neg = servicio['neg'] + \
-                                            int(respuesta[1][2].text)
-                                        tot_neut = servicio['neut'] + \
-                                            int(respuesta[1][3].text)
+                                        tot_m =  servicio['tot'] +int(a[0][0].text)
+                                        tot_pos = servicio['pos'] + int(a[0][1].text)
+                                        tot_neg = servicio['neg'] + int(a[0][2].text)
+                                        tot_neut = servicio['neut'] +int(a[0][3].text)
                                         a[0][0].text = str(tot_m)
                                         a[0][1].text = str(tot_pos)
                                         a[0][2].text = str(tot_neg)
@@ -204,13 +280,12 @@ class DB:
     def nuevo_servicio(self, servicios, servicio):
         s = ET.SubElement(servicios, 'servicio')
         s.set('nombre', servicio['servicio'])
-        total_s = servicio['pos'] + servicio['neg'] + servicio['neut']
         mensajes = ET.SubElement(s, 'mensajes')
         tot_mensajes = ET.SubElement(mensajes, 'total')
         tot_positivos = ET.SubElement(mensajes, 'positivos')
         tot_negativos = ET.SubElement(mensajes, 'negativos')
         tot_neutros = ET.SubElement(mensajes, 'neutros')
-        tot_mensajes.text = str(total_s)
+        tot_mensajes.text = str(servicio['tot'])
         tot_positivos.text = str(servicio['pos'])
         tot_negativos.text = str(servicio['neg'])
         tot_neutros.text = str(servicio['neut'])

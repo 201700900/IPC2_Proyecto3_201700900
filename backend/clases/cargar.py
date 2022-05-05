@@ -19,7 +19,7 @@ text = ''
 def getXMLasSTR(root):
     global text
     mydata = ET.tostring(root, encoding='UTF-8', method='html')
-    print(mydata.decode('UTF-8'))
+    # print(mydata.decode('UTF-8'))
     text = mydata.decode('UTF-8')
 
 
@@ -71,7 +71,7 @@ def leer(root):
 
 
     for empresa in root[0][2]:  # <empresas_analizar>
-        nombre = empresa.find('nombre').text.strip()
+        nombre = escribir.tilde(empresa.find('nombre').text.strip())
         # print(nombre)
         lista_servicios = lista.LinkedList()
         for servicio in empresa.iter('servicio'):  # obtener cada servicio

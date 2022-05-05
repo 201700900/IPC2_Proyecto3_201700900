@@ -100,5 +100,13 @@ def pdf(request):
 
     return render(request, 'index/index.html', {'error': '¡PDF NO CREADO!'})
 
+def reset(request):
+    response = generate_request('http://127.0.0.1:5000/reset/')
+    if response:
+        # print(response['entrada'])
+        return render(request, 'index/index.html', {'exito': '¡DATABASE ELIMINADA CON EXITO!'})
+
+    return render(request, 'index/index.html', {'error': '¡ERROR EN RESET DATABASE!'})
+
 def reportes(request):
     return render(request, 'index/reportes.html')

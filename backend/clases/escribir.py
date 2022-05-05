@@ -9,6 +9,16 @@ Negativos = lista.LinkedList()
 Empresas = lista.LinkedList()
 id = 1
 n = db.DB()
+def cargar_db():
+    global Positivos
+    global Negativos
+    global Empresas
+    Positivos = lista.LinkedList()
+    Negativos = lista.LinkedList()
+    Empresas = lista.LinkedList()
+    n.cargar_sentimientos(Positivos, Negativos)
+    n.cargar_empresas(Empresas)
+
 def delete():
     global ListaFechas
     global ListaMensajes
@@ -96,11 +106,12 @@ def respuesta():
         #         tot_mensajes(s, total_s, servicio.positivo, servicio.negativo, servicio.neutro)
 
         analisis = ET.SubElement(respuesta, 'analisis')
+        print(f.d_empresas)
         for em in f.d_empresas:
             n.guardar_analisis_empresa(f.fecha, em['empresa'], em['servicios'])
-            tot = int(em['pos'])+ int(em['neg'])+ int(em['neut'])
-            print(tot)
-            # n.guardar_tot_empresa(f.fecha, em['empresa'], tot, em['pos'], em['neg'], em['neut']) 
+            
+            
+            n.guardar_tot_empresa(f.fecha, em['empresa'], em['tot'], em['pos'], em['neg'], em['neut']) 
 
         for empresa in f.empresas:
             e = ET.SubElement(analisis, 'empresa')
@@ -139,6 +150,8 @@ def porcentaje(total, numero):
 
 
 def prueba_mensaje(root):
+    delete()
+    cargar_db()
 
     mensaje = root  # root es <lista_mensajes>
     # print(mensaje.text)
@@ -161,7 +174,7 @@ def prueba_mensaje(root):
     # print(mensaje_final)
 
     nuevo = m.Mensaje(fecha, ciudad, usuario, red_social,
-                      mensaje_final.strip(), 'prueba')
+                      mensaje_final.strip())
 
     root = ET.Element('lista_respuestas')
     date = ET.SubElement(root, 'fecha')

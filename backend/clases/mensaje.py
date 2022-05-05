@@ -1,5 +1,6 @@
 from clases import escribir
 import re
+from clases import fecha as date
 
 class Mensaje:
     texto = None
@@ -42,6 +43,8 @@ class Mensaje:
         for f in escribir.ListaFechas:
             if f.fecha == self.fecha:
                 return f
+            
+        return date.Fecha(self.fecha)
 
     def tilde(self, s):
         replacements = (
@@ -88,8 +91,9 @@ class Mensaje:
 
         elif numero_negativos == 0 and numero_positivos== 0:
             self.sentimiento = 'neutro'
-
         for empresa in escribir.Empresas:
+            print(empresa.nombre)
+
             if re.findall(self.tilde(empresa.nombre).lower(), self.tilde(self.texto).lower(), re.IGNORECASE):
                 self.empresa.append(empresa)
                 self.getDiccionario(empresa.nombre)
@@ -105,7 +109,7 @@ class Mensaje:
                     for alias in servicio.alias:
                         if re.findall(self.tilde(alias).lower(), self.tilde(self.texto).lower(), re.IGNORECASE):
                             self.servicio = servicio
-                            self.getDiccionario(empresa, servicio.nombre)
+                            self.getDiccionario(empresa.nombre, servicio.nombre)
                             if prueba != 'prueba': 
                                 servicio.getSentimiento(self.sentimiento)
                                 f.servicio(servicio, self.sentimiento)

@@ -17,6 +17,11 @@
             <h5>Para solicitar la clasificación de mensajes.</h5>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-6">
+            <form action="{%url 'index:reset'%}" method="post" class="form-inline my-2 my-lg-0">
+                {% csrf_token %}
+                <button class="btn btn-danger">RESET DATABASE</button>
+                <!-- <input type="file" class="form-control-file btn btn-primary" id="file"> -->
+            </form>
         </div>
     </div>
 

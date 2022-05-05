@@ -53,5 +53,6 @@ if __name__ == '__main__':
 
 @app.route('/reset/', methods=['GET', 'POST'], strict_slashes=False)
 def reset():
-    pfd.makePDF()
+    n = db.DB()
+    n.reset()
     return {'exito':''}
