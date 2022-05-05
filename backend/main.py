@@ -13,22 +13,20 @@ def index():
 
 @app.route('/cargar', methods=['GET', 'POST'], strict_slashes=False)
 def carga():
-    path = xmltodict.parse(request.get_data())
-    b = request.get_data()
-    s = b.decode('UTF-8')
-    
-    root = ET.fromstring(s)
-    
+    # path = xmltodict.parse(request.get_data())
+    path = 'C:/Users/gujho/OneDrive/Documentos/1SEM2022/IPC2/LAB/IPC2_Proyecto3_201700900/webapp/carga.xml'
+    tree = ET.parse(path)
+    root = tree.getroot()
     cargar.leer(root)
     pfd.makePDF()
     
-    return escribir.respuesta()
+    return {'respuesta':escribir.respuesta()}
 
 
 @app.route('/path/', methods=['GET', 'POST'], strict_slashes=False)
 def path():
     cargar.getPath()
-    return escribir.respuesta()
+    return {"respuesta": escribir.respuesta(), "entrada": cargar.text}
 
 
 @app.route('/prueba' , methods=['GET','POST'], strict_slashes=False)
@@ -38,7 +36,7 @@ def prueba():
  
     root = ET.fromstring(s)
     
-    return escribir.prueba_mensaje(root)
+    return {'respuesta':escribir.prueba_mensaje(root)}
 
 
 

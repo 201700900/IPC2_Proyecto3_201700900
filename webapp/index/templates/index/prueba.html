@@ -1,14 +1,7 @@
 {%extends "index/base.html"%}
 
-{% block nav%}
-<form action="{%url 'index:cargar'%}" method="post" class="form-inline my-2 my-lg-0">
-    {% csrf_token %}
-    <button class="btn btn-primary">CARGAR ARCHIVO</button>
-    <!-- <input type="file" class="form-control-file btn btn-primary" id="file"> -->
-</form>
-{%endblock%}
-{% block content%}
 
+{% block content%}
 <!--CTA  call-to-action section-->
 <div class="container py-5">
     <div class="row">

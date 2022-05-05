@@ -1,23 +1,106 @@
 import imp
 from django.shortcuts import render
 import requests
-
+from django.http import HttpResponse
 # Create your views here.
 from django.http import HttpResponse
+import xml.etree.ElementTree as ET
+
 
 # def index (request):
 #     return HttpResponse("Hello World")
 
-def index(request):
-	return render(request, 'index/index.html')
 
-def getXML(params={}):
-	response = requests.get('http://127.0.0.1:5000/path/', auth=('user', 'pass'))#generate_request('http://127.0.0.1:5000/path/', params)
-	if response:
-		user = response.get('results')[0]
-		return user.get('name').get('first')
-		
-	return
+def index(request):
+    return render(request, 'index/index.html')
+
+def tilde(s):
+        replacements = (
+            ("á", "a"),
+            ("é", "e"),
+            ("í", "i"),
+            ("ó", "o"),
+            ("ú", "u"),
+        )
+        for a, b in replacements:
+            s = s.replace(a, b).replace(a.upper(), b.upper())
+        return s
+
+
+
+
+
+def generate_request(url, params={}):
+    response = requests.post(url, params=params)
+
+    if response.status_code == 200:
+        return response.json()
+
 
 def cargar(request):
-	return
+    response = generate_request('http://127.0.0.1:5000/path/')
+    if response:
+        print(response['entrada'])
+        return render(request, 'index/index.html', {
+            'entrada': response['entrada'],
+            'respuesta': response['respuesta'],
+            'exito': '¡CARGADO CON EXITO!'
+
+        })
+
+    return render(request, 'index/index.html', {'error': '¡ARCHIVO NO FUE CARGADO!'})
+
+def getXML(request):
+    text=''
+    if request.POST['entrada']:
+        text = request.POST['entrada']
+        root = ET.fromstring(text)
+
+        # ET.indent(root)
+        mydata = ET.tostring(root, encoding='UTF-8', method ='html')
+        myfile = open("carga.xml", "w", encoding='UTF-8')
+        myfile.write(mydata.decode('UTF-8'))
+        myfile.close()
+        response = generate_request('http://127.0.0.1:5000/cargar/',  bytes(tilde(text), 'utf-8'))
+
+        print(text)
+        if response:
+            print(response['respuesta'])
+            return render(request, 'index/index.html', {
+                'entrada': text,
+                'respuesta': response['respuesta'],
+                'exito': '¡CARGADO CON EXITO!'
+
+            })
+
+    return render(request, 'index/index.html', {'error': '¡ARCHIVO NO FUE CARGADO!', 'entrada': text,})
+
+def p(request):
+    return render(request, 'index/prueba.html')
+
+def prueba(request):
+    text=''
+    if request.POST['entrada']:
+        text = request.POST['entrada']
+        root = ET.fromstring(text)
+
+        # ET.indent(root)
+        mydata = ET.tostring(root, encoding='UTF-8', method ='html')
+        myfile = open("carga.xml", "w", encoding='UTF-8')
+        myfile.write(mydata.decode('UTF-8'))
+        myfile.close()
+        response = generate_request('http://127.0.0.1:5000/prueba/',  bytes(tilde(text), 'utf-8'))
+
+        print(text)
+        if response:
+            print(response['respuesta'])
+            return render(request, 'index/index.html', {
+                'entrada': text,
+                'respuesta': response['respuesta'],
+                'exito': '¡MENSAJE CON EXITO!'
+
+            })
+
+    return render(request, 'index/prueba.html', {'error': '¡MENSAJE NO FUE CARGADO!', 'entrada': text,})
+
+
