@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, json, jsonify, make_response,
 import xml.etree.ElementTree as ET
 import xmltodict
 from markupsafe import escape
+import webbrowser as wb
 from clases import escribir, cargar, pfd
+
 app = Flask(__name__)
 
 @app.route('/', methods=["GET", "POST"])
@@ -18,7 +20,6 @@ def carga():
     tree = ET.parse(path)
     root = tree.getroot()
     cargar.leer(root)
-    pfd.makePDF()
     
     return {'respuesta':escribir.respuesta()}
 
@@ -28,13 +29,17 @@ def path():
     cargar.getPath()
     return {"respuesta": escribir.respuesta(), "entrada": cargar.text}
 
+@app.route('/pdf/', methods=['GET', 'POST'], strict_slashes=False)
+def pdf():
+    pfd.makePDF()
+    wb.open_new('C:/Users/gujho/OneDrive/Documentos/1SEM2022/IPC2/LAB/IPC2_Proyecto3_201700900/backend/reporte.pdf')   
+    return {'exito':''}
 
 @app.route('/prueba' , methods=['GET','POST'], strict_slashes=False)
 def prueba():
-    b = request.get_data()
-    s = b.decode('UTF-8')
- 
-    root = ET.fromstring(s)
+    path = 'C:/Users/gujho/OneDrive/Documentos/1SEM2022/IPC2/LAB/IPC2_Proyecto3_201700900/webapp/carga.xml'
+    tree = ET.parse(path)
+    root = tree.getroot()
     
     return {'respuesta':escribir.prueba_mensaje(root)}
 

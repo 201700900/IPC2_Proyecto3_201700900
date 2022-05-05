@@ -3,29 +3,29 @@
 
 {% block content%}
 <!--CTA  call-to-action section-->
-<div class="container py-5">
+<div class="container py-5 .bg-secondary.bg-gradient">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-6 pb-4">
-            <h1 class="display-4 font-weight-bold">Solicitud clasificación</h1>
-            <h5>Para solicitar la clasificación de mensajes.</h5>
+            <h1 class="display-4 font-weight-bold">Prueba de mensaje</h1>
+            <h5>Para solicitar el análisis de mensajes indivivuales.</h5>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-6">
         </div>
     </div>
 
-    <form action="{%url 'index:solicitud'%}" method="post">
+    <form action="{% url 'index:prueba-mensaje'%}" method="post">
         {% csrf_token %}
 
         <div class="row">
             <div class="col">
-                <textarea class="form-control" name="entrada" id="entrada" rows="15"
-                    placeholder="Ingrese XML">{{entrada}}</textarea>
+                <textarea class="form-control" name="entrada" id="entrada" rows="20"
+                    placeholder="Ingrese mensaje a analizar:">{{entrada}}</textarea>
             </div>
             <div class="col">
-                <textarea disabled class="form-control" id="respuesta" rows="15">{{respuesta}}</textarea>
+                <textarea disabled class="form-control" id="respuesta" rows="20" placeholder="Respuesta:">{{respuesta}}</textarea>
             </div>
         </div>
-        <button class="btn btn-primary mt-2" type="enviar">ENVIAR</button>
+        <button class="btn btn-dark mt-2" type="enviar">ENVIAR</button>
     </form>
 
 </div>

@@ -2,26 +2,55 @@
   <respuesta>
     <fecha>03/04/2022</fecha>
     <mensajes>
-      <total>1</total>
+      <total>2</total>
       <positivos>1</positivos>
-      <negativos>0</negativos>
+      <negativos>1</negativos>
       <neutros>0</neutros>
     </mensajes>
     <analisis>
       <empresa nombre="USAC">
         <mensajes>
-          <total>1</total>
+          <total>2</total>
           <positivos>1</positivos>
-          <negativos>0</negativos>
+          <negativos>1</negativos>
           <neutros>0</neutros>
         </mensajes>
         <servicios>
           <servicio nombre="inscripción">
             <mensajes>
-              <total>1</total>
+              <total>2</total>
               <positivos>1</positivos>
-              <negativos>0</negativos>
+              <negativos>1</negativos>
               <neutros>0</neutros>
+            </mensajes>
+          </servicio>
+        </servicios>
+      </empresa>
+    </analisis>
+  </respuesta>
+  <respuesta>
+    <fecha>06/04/2022</fecha>
+    <mensajes>
+      <total>1</total>
+      <positivos>0</positivos>
+      <negativos>0</negativos>
+      <neutros>1</neutros>
+    </mensajes>
+    <analisis>
+      <empresa nombre="USAC">
+        <mensajes>
+          <total>1</total>
+          <positivos>0</positivos>
+          <negativos>0</negativos>
+          <neutros>1</neutros>
+        </mensajes>
+        <servicios>
+          <servicio nombre="inscripción">
+            <mensajes>
+              <total>1</total>
+              <positivos>0</positivos>
+              <negativos>0</negativos>
+              <neutros>1</neutros>
             </mensajes>
           </servicio>
         </servicios>
@@ -31,28 +60,20 @@
   <respuesta>
     <fecha>01/04/2022</fecha>
     <mensajes>
-      <total>5</total>
-      <positivos>2</positivos>
-      <negativos>2</negativos>
-      <neutros>1</neutros>
+      <total>2</total>
+      <positivos>1</positivos>
+      <negativos>1</negativos>
+      <neutros>0</neutros>
     </mensajes>
     <analisis>
       <empresa nombre="USAC">
         <mensajes>
-          <total>5</total>
-          <positivos>2</positivos>
-          <negativos>2</negativos>
-          <neutros>1</neutros>
+          <total>2</total>
+          <positivos>1</positivos>
+          <negativos>1</negativos>
+          <neutros>0</neutros>
         </mensajes>
         <servicios>
-          <servicio nombre="inscripción">
-            <mensajes>
-              <total>3</total>
-              <positivos>1</positivos>
-              <negativos>1</negativos>
-              <neutros>1</neutros>
-            </mensajes>
-          </servicio>
           <servicio nombre="asignación">
             <mensajes>
               <total>1</total>

@@ -31,7 +31,7 @@ def getPath():
     # root.withdraw()  # ahora se cierra
     # abre el explorador de archivos y guarda la seleccion en la variable!
     path = tkinter.filedialog.askopenfilename()
-    print(path)
+
     tree = ET.parse(path)
     root = tree.getroot()  # <solicitud_clasificacion>
     leer(root)

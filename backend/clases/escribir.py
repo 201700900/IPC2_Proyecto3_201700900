@@ -103,7 +103,7 @@ def respuesta():
         myfile = open("items.xml", "w", encoding='UTF-8')
         myfile.write(mydata.decode('UTF-8'))
         myfile.close()
-        print(mydata.decode('UTF-8'))
+        # print(mydata.decode('UTF-8'))
     return mydata.decode('UTF-8')
 
 
@@ -122,7 +122,7 @@ def prueba_mensaje(root):
     mensaje = root  # root es <lista_mensajes>
     # print(mensaje.text)
     text = mensaje.text.strip(' \t\n')
-    separado = text.split(' ')
+    separado = text.split()
     # print(separado)
     ciudad = separado[3].strip(' ,\t\n')
     # print(ciudad)
@@ -175,5 +175,5 @@ def prueba_mensaje(root):
     analizado.text = nuevo.sentimiento
     ET.indent(root)
     mydata = ET.tostring(root, encoding='UTF-8', method='html')
-    print(mydata.decode('UTF-8'))
+    # print(mydata.decode('UTF-8'))
     return mydata.decode('UTF-8')
