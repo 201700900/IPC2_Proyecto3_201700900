@@ -12,6 +12,10 @@ urlpatterns = [
     path('pdf/', views.pdf, name='pdf'),
     path('reportes/', views.reportes, name='reportes'),
     path('reset/', views.reset, name='reset'),
+    path('perfil/', views.perfil, name='perfil'),
+    path('doc/', views.doc, name='doc'),
+
+
 
 
 

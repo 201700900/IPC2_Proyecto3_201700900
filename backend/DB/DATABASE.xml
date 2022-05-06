@@ -1,8 +1,0 @@
-<database>
-  <diccionario>
-    <sentimientos_positivos></sentimientos_positivos>
-    <sentimientos_negativos></sentimientos_negativos>
-    <empresas_analizar></empresas_analizar>
-  </diccionario>
-  <lista_respuestas></lista_respuestas>
-</database>

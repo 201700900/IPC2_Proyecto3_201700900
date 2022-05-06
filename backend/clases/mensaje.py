@@ -92,7 +92,7 @@ class Mensaje:
         elif numero_negativos == 0 and numero_positivos== 0:
             self.sentimiento = 'neutro'
         for empresa in escribir.Empresas:
-            print(empresa.nombre)
+            # print(empresa.nombre)
 
             if re.findall(self.tilde(empresa.nombre).lower(), self.tilde(self.texto).lower(), re.IGNORECASE):
                 self.empresa.append(empresa)
@@ -101,7 +101,7 @@ class Mensaje:
                     f.sentimiento_empresa(self.tilde(empresa.nombre), self.sentimiento)
                     empresa.getSentimiento(self.sentimiento)
                     f.empresa(empresa, self.sentimiento)
-                    
+                    break
 
         if self.empresa != None:
             for empresa in self.empresa:
@@ -114,6 +114,7 @@ class Mensaje:
                                 servicio.getSentimiento(self.sentimiento)
                                 f.servicio(servicio, self.sentimiento)
                                 f.sentimiento_servicio(empresa.nombre, servicio.nombre, self.sentimiento)
+                                break
                         
 
     

@@ -30,7 +30,7 @@ class DB:
                 if d.fecha == fecha:
                     match += 1
             if match == 0:
-                ListaFechas.Append(nuevo)#guardar fecha
+                ListaFechas.append(nuevo)#guardar fecha
             #total mensajes
             tot_m =  int(respuesta[1][0].text.strip())
             tot_pos = int(respuesta[1][1].text.strip())
@@ -39,22 +39,20 @@ class DB:
             nuevo.set_total_mensajes(tot_m, tot_pos, tot_neg, tot_neut)
 
             #GUARDAR EMPRESAS
-            for emp in nuevo.d_empresas:
 
-                if not self.existe_empresa_analisis(emp['empresa'], respuesta[2]):
-                    for empresa in respuesta[2]:
-                        tot_e = int(empresa[0][0].text.strip())
-                        tot_pos = int(empresa[0][1].text.strip())
-                        tot_neg =int(empresa[0][2].text.strip())
-                        tot_neut = int(empresa[0][3].text.strip())
-                        nuevo.new_d_empresa(empresa.attrib['nombre'].strip(), tot_e, tot_pos, tot_neg, tot_neut)
+            for empresa in respuesta[2]:
+                tot_e = int(empresa[0][0].text.strip())
+                tot_pos = int(empresa[0][1].text.strip())
+                tot_neg =int(empresa[0][2].text.strip())
+                tot_neut = int(empresa[0][3].text.strip())
+                nuevo.new_d_empresa(empresa.attrib['nombre'].strip(), tot_e, tot_pos, tot_neg, tot_neut)
 
-                for servicio in emp[1]:
-                    tot_m =int(servicio[0][0].text)
-                    tot_pos = int(servicio[0][1].text)
-                    tot_neg = int(servicio[0][2].text)
-                    tot_neut = (servicio[0][3].text)
-                    nuevo.new_servicio(empresa.attrib['nombre'].strip(),  servicio.attrib['nombre'].strip(),tot_e, tot_pos, tot_neg, tot_neut)
+                for servicio in empresa[1]:
+                    tot =int(servicio[0][0].text.strip())
+                    pos = int(servicio[0][1].text.strip())
+                    neg = int(servicio[0][2].text.strip())
+                    neut = (servicio[0][3].text.strip())
+                    nuevo.new_servicio(empresa.attrib['nombre'].strip(),  servicio.attrib['nombre'].strip(), tot, pos, neg, neut)
 
 
 
@@ -247,26 +245,26 @@ class DB:
                     servicios = ET.SubElement(e, 'servicios')
                     for servicio in lista:
                         self.nuevo_servicio(servicios, servicio)
-                for empresa in respuesta[2]:
-                    if new == empresa.attrib['nombre'].strip():
-                        for servicio in lista:
-                            if not self.existe_servicio_analisis(servicio, empresa[1]):
-                                self.nuevo_servicio(empresa[1], servicio)
-                            elif new == empresa.attrib['nombre'].strip():
+                else:
+                    for empresa in respuesta[2]:
+                        if new == empresa.attrib['nombre'].strip():
+                            for servicio in lista:
+                                if not self.existe_servicio_analisis(servicio['servicio'] , empresa[1]):
+                                    self.nuevo_servicio(empresa[1], servicio)
+                                elif self.existe_servicio_analisis(servicio['servicio'] , empresa[1]):
 
-                                for a in empresa[1]:
-                                    if servicio['servicio'] == a.attrib['nombre'].strip():
+                                    for a in empresa[1]:
+                                        if servicio['servicio'] == a.attrib['nombre'].strip():
 
-                                        tot_m =  servicio['tot'] +int(a[0][0].text)
-                                        tot_pos = servicio['pos'] + int(a[0][1].text)
-                                        tot_neg = servicio['neg'] + int(a[0][2].text)
-                                        tot_neut = servicio['neut'] +int(a[0][3].text)
-                                        a[0][0].text = str(tot_m)
-                                        a[0][1].text = str(tot_pos)
-                                        a[0][2].text = str(tot_neg)
-                                        a[0][3].text = str(tot_neut)
-                            elif not self.existe_servicio_analisis(servicio, empresa[1]):
-                                self.nuevo_servicio(empresa[1], servicio)
+                                            tot_m =  servicio['tot'] +int(a[0][0].text)
+                                            tot_pos = servicio['pos'] + int(a[0][1].text)
+                                            tot_neg = servicio['neg'] + int(a[0][2].text)
+                                            tot_neut = servicio['neut'] +int(a[0][3].text)
+                                            a[0][0].text = str(tot_m)
+                                            a[0][1].text = str(tot_pos)
+                                            a[0][2].text = str(tot_neg)
+                                            a[0][3].text = str(tot_neut)
+                            
 
             ET.indent(root)
             tree.write(self.path)

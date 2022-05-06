@@ -2,13 +2,19 @@ from unittest import result
 from clases import linkedList as lista, mensaje as m, db
 import xml.etree.ElementTree as ET
 
-ListaFechas = lista.LinkedList()
+ListaFechas = []
 ListaMensajes = lista.LinkedList()
 Positivos = lista.LinkedList()
 Negativos = lista.LinkedList()
 Empresas = lista.LinkedList()
 id = 1
 n = db.DB()
+
+def cargar_fechas():
+    global ListaFechas
+    delete()
+    cargar_db()
+    n.cargar_respuestas(ListaFechas)
 def cargar_db():
     global Positivos
     global Negativos
@@ -26,7 +32,7 @@ def delete():
     global Negativos
     global Empresas
 
-    ListaFechas = lista.LinkedList()
+    ListaFechas = []
     ListaMensajes = lista.LinkedList()
     Positivos = lista.LinkedList()
     Negativos = lista.LinkedList()
@@ -106,7 +112,7 @@ def respuesta():
         #         tot_mensajes(s, total_s, servicio.positivo, servicio.negativo, servicio.neutro)
 
         analisis = ET.SubElement(respuesta, 'analisis')
-        print(f.d_empresas)
+        # print(f.d_empresas)
         for em in f.d_empresas:
             n.guardar_analisis_empresa(f.fecha, em['empresa'], em['servicios'])
             
@@ -129,12 +135,12 @@ def respuesta():
             tot_mensajes(s, total_s, servicio[1], servicio[2], servicio[3])
 
         # create a new XML file with the results
-        ET.indent(root)
-        mydata = ET.tostring(root, encoding='UTF-8', method='html')
-        myfile = open("response"+str(id)+".xml", "w", encoding='UTF-8')
-        myfile.write(mydata.decode('UTF-8'))
-        myfile.close()
-        id+=1
+    ET.indent(root)
+    mydata = ET.tostring(root, encoding='UTF-8', method='html')
+    myfile = open("response"+str(id)+".xml", "w", encoding='UTF-8')
+    myfile.write(mydata.decode('UTF-8'))
+    myfile.close()
+    id+=1
         # print(mydata.decode('UTF-8'))
     return mydata.decode('UTF-8')
 

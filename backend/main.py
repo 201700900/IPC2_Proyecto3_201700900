@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, json, jsonify, make_response, redirect
 import xml.etree.ElementTree as ET
 import xmltodict
+import pandas as pd 
+import matplotlib.pyplot as plt 
 from markupsafe import escape
 import webbrowser as wb
 from clases import escribir, cargar, pfd, db
@@ -43,6 +45,54 @@ def prueba():
     
     return {'respuesta':escribir.prueba_mensaje(root)}
 
+@app.route('/reset/', methods=['GET', 'POST'], strict_slashes=False)
+def reset():
+    n = db.DB()
+    n.reset()
+    escribir.delete()
+    return {'exito':''}
+
+@app.route('/doc/', methods=['GET', 'POST'], strict_slashes=False)
+def doc():
+    pfd.makePDF()
+    wb.open_new('C:/Users/gujho/OneDrive/Documentos/1SEM2022/IPC2/LAB/IPC2_Proyecto3_201700900/DOC/IPC2_Proyecto3_201700900.pdf')   
+    return {'exito':''}
+
+@app.route('/reportes/', methods=['GET', 'POST'], strict_slashes=False)
+def reportes():
+    escribir.cargar_fechas()
+    fecha = request.args.get('date')
+    print(fecha)
+    empresas=[]
+    sentimientos={
+        "Positivo":[],
+        "Negativo":[],
+        "Neutro":[],
+    }
+    for f in escribir.ListaFechas():
+        if f.fecha == fecha:
+            for s in f.d_empresas:
+                empresas.append(s['servicio'])
+                sentimientos['Positivo'].append(s['pos'])
+                sentimientos['Negativo'].append(s['neg'])
+                sentimientos['Neutro'].append(s['neut'])
+
+
+
+    # data=[["Rudra",23,156,70],
+    #     ["Nayan",20,136,60],
+    #     ["Alok",15,100,35],
+    #     ["Prince",30,150,85]
+    #     ]
+
+    df=pd.DataFrame(sentimientos,index=empresas)
+
+    df.plot(kind="bar",stacked=True,figsize=(10,8))
+    plt.legend(loc="lower left",bbox_to_anchor=(0.8,1.0))
+    # plt.show()
+    # plt.ylabel('Datos')
+    plt.savefig("C:/Users/gujho/OneDrive/Documentos/1SEM2022/IPC2/LAB/IPC2_Proyecto3_201700900/webapp/index/static/img/grafica.jpg")
+    return {"fechas": ''}
 
 
 if __name__ == '__main__':
@@ -51,8 +101,3 @@ if __name__ == '__main__':
 #Inicializar application
 #python app.py
 
-@app.route('/reset/', methods=['GET', 'POST'], strict_slashes=False)
-def reset():
-    n = db.DB()
-    n.reset()
-    return {'exito':''}

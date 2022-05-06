@@ -1,5 +1,5 @@
 import imp
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 from django.http import HttpResponse
 # Create your views here.
@@ -108,5 +108,78 @@ def reset(request):
 
     return render(request, 'index/index.html', {'error': '¡ERROR EN RESET DATABASE!'})
 
+
+def perfil(request):
+    return render(request, 'index/perfil.html')
+
+def doc(request):
+    response = generate_request('http://127.0.0.1:5000/doc/')
+    if response:
+        # print(response['entrada'])
+        return render(request, 'index/index.html', {'exito': '¡PDF CREADO CON EXITO!'})
+
+    return render(request, 'index/index.html', {'error': '¡PDF NO CREADO!'})
+
+
+
 def reportes(request):
-    return render(request, 'index/reportes.html')
+    if request.method == 'GET':
+        # response = generate_request('http://127.0.0.1:5000/reportes/by_date')
+        # print(type(response['fechas']))
+       
+        date = request.GET.get('date', None)
+        empresa = request.GET.get('empresa', None)
+        
+        if date != None:
+            n = date.split('-')
+            fecha = n[2]+'/'+n[1]+'/'+n[0]
+            response = generate_request('http://127.0.0.1:5000/reportes/by_date', {'fecha': fecha})
+
+        # if date != None:
+        #     response = generate_request('http://127.0.0.1:5000/reportes/by_empresa')
+
+        
+
+    return render(request, 'index/reportes.html',  {'exito': 'exito'})
+# def reports(request):
+#     if request.method == 'GET':
+#         date = request.GET.get('date', None)
+#         error = request.GET.get('error', None)
+
+#         context: dict = {}
+#         if date != None:
+#             users_by_date = requests.get('http://localhost:5000/stats/by_date',
+#                                          {
+#                                              'date': date
+#                                          }).json()
+
+#             context['date_results']: list = []
+#             for user in users_by_date['data']:
+#                 percentage = int((user['cant'] / users_by_date['total']) * 100)
+#                 context['date_results'].append({
+#                     'percentage': percentage,
+#                     'user': user['user'],
+#                     'cant': user['cant'],
+#                     'total': users_by_date['total']
+#                 })
+#         if error != None:
+#             errors_by_date = requests.get(
+#                 'http://localhost:5000/stats/by_error', {
+#                     'error': error
+#                 }).json()
+
+#             context['error_results']: list = []
+#             for date in errors_by_date['data']:
+#                 percentage = int(
+#                     (date['cant'] / errors_by_date['total']) * 100)
+#                 context['error_results'].append({
+#                     'percentage':
+#                     percentage,
+#                     'date':
+#                     date['date'],
+#                     'cant':
+#                     date['cant'],
+#                     'total':
+#                     errors_by_date['total']
+#                 })
+#         return render(request, 'reports.html', context)

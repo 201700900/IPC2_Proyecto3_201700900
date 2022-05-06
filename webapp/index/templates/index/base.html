@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    {% load static %}
     <!--Navbar-->
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <a class="navbar-brand" href="{%url 'index:index'%}">MyApp</a>
@@ -31,9 +32,9 @@
                       Ayuda
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="/reportes/">Desarrollador</a>
+                      <a class="dropdown-item" href="/perfil/">Desarrollador</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="/prueba/">Documentación</a>
+                      <a class="dropdown-item" href="/doc/">Documentación</a>
                     </div>
                   </li>
                 <li class="nav-item dropdown">

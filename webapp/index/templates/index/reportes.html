@@ -1,4 +1,4 @@
-{% extends 'index/base.html' %} {% block content %}
+{% extends 'index/base.html' %} {% block content %}{% load static %}
 
 <div class="row">
   <div class="col-6 p-3 border">
@@ -16,6 +16,11 @@
       </div>
     </form>
     <div id="by-date-results">
+    {%if exito%}
+    <div class="col-sm-12">
+      <img class="img-fluid rounded" src="{% static 'img/grafica.jpg' %}" alt="Perfil">
+    </div>
+    {%endif%}
       {% for result in date_results %}
       <div>{{ result.user }} - {{ result.cant }}/{{ result.total }}</div>
       <div class="progress" style="height: 1.5rem">
@@ -33,13 +38,13 @@
     </div>
   </div>
   <div class="col-6 p-3 border">
-    <h2 class="text-center">Por codigo de error</h2>
+    <h2 class="text-center">Por empresa:</h2>
     <form method="GET">
-      <label for="error" class="form-label">Codigo de error: </label>
+      <label for="error" class="form-label">Empresa: </label>
       <input
         type="number"
-        name="error"
-        id="error"
+        name="empresa"
+        id="empresa"
         class="form-control form-control-sm"
       />
       <div class="col-lg-2 d-grid gap-2 mx-auto p-3">

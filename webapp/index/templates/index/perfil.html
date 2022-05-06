@@ -1,0 +1,18 @@
+{%extends "index/base.html"%}{% load static %}
+
+
+{% block content%}
+<!--CTA  call-to-action section-->
+<div class="container py-5">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-6 pb-4">
+        <h1 class="display-4 font-weight-bold">Gueslim Jhoans Fernandez Rivera</h1>
+        <h5>carnet: 201700900</h5>
+        <a class="btn btn-primary mt-2" href="{%url 'index:index'%}">REGRESAR</a>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6">
+        <img class="img-fluid rounded" src="{% static 'img/perfil.jpg' %}" alt="Perfil">
+    </div>
+    </div>
+  </div>
+{%endblock%}

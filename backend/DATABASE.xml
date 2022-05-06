@@ -1,8 +1,108 @@
 <database>
-    <diccionario>
-      <sentimientos_positivos></sentimientos_positivos>
-      <sentimientos_negativos></sentimientos_negativos>
-      <empresas_analizar></empresas_analizar>
-    </diccionario>
-    <lista_respuestas></lista_respuestas>
-  </database>
+  <diccionario>
+    <sentimientos_positivos>
+      <palabra>bueno</palabra>
+      <palabra>excelente</palabra>
+      <palabra>cool</palabra>
+      <palabra>satisfecho</palabra>
+      <palabra>alegre</palabra>
+    </sentimientos_positivos>
+    <sentimientos_negativos>
+      <palabra>malo</palabra>
+      <palabra>pesimo</palabra>
+      <palabra>triste</palabra>
+      <palabra>molesto</palabra>
+      <palabra>decepcionado</palabra>
+      <palabra>enojo</palabra>
+    </sentimientos_negativos>
+    <empresas_analizar>
+      <empresa>
+        <nombre>USAC</nombre>
+        <servicio nombre="inscripcion">
+          <alias>inscripcion</alias>
+          <alias>inscribi</alias>
+          <alias>inscrito</alias>
+          <alias>escribire</alias>
+        </servicio>
+        <servicio nombre="asignacion">
+          <alias>asignacion</alias>
+          <alias>asignado</alias>
+          <alias>asigne</alias>
+        </servicio>
+        <servicio nombre="graduacion">
+          <alias>graduacion</alias>
+          <alias>graduarme</alias>
+          <alias>graduacion</alias>
+        </servicio>
+      </empresa>
+    </empresas_analizar>
+  </diccionario>
+  <lista_respuestas>
+    <respuesta>
+      <fecha>01/04/2022</fecha>
+      <mensajes>
+        <total>16</total>
+        <positivos>4</positivos>
+        <negativos>8</negativos>
+        <neutros>4</neutros>
+      </mensajes>
+      <analisis>
+        <empresa nombre="USAC">
+          <mensajes>
+            <total>16</total>
+            <positivos>4</positivos>
+            <negativos>8</negativos>
+            <neutros>4</neutros>
+          </mensajes>
+          <servicios>
+            <servicio nombre="inscripcion">
+              <mensajes>
+                <total>12</total>
+                <positivos>4</positivos>
+                <negativos>4</negativos>
+                <neutros>4</neutros>
+              </mensajes>
+            </servicio>
+            <servicio nombre="asignacion">
+              <mensajes>
+                <total>4</total>
+                <positivos>0</positivos>
+                <negativos>4</negativos>
+                <neutros>0</neutros>
+              </mensajes>
+            </servicio>
+          </servicios>
+        </empresa>
+      </analisis>
+    </respuesta>
+    <respuesta>
+      <fecha>01/06/2022</fecha>
+      <mensajes>
+        <total>4</total>
+        <positivos>4</positivos>
+        <negativos>0</negativos>
+        <neutros>0</neutros>
+      </mensajes>
+      <analisis>
+        <empresa nombre="USAC">
+          <mensajes>
+            <total>4</total>
+            <positivos>4</positivos>
+            <negativos>0</negativos>
+            <neutros>0</neutros>
+          </mensajes>
+          <servicios>
+            <servicio nombre="graduacion">
+              <mensajes>
+                <total>4</total>
+                <positivos>4</positivos>
+                <negativos>0</negativos>
+                <neutros>0</neutros>
+              </mensajes>
+            </servicio>
+          </servicios>
+        </empresa>
+      </analisis>
+    </respuesta>
+  </lista_respuestas>
+</database>
